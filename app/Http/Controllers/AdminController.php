@@ -5,6 +5,7 @@
 	use App\Models\Appointment;
 	use Illuminate\Http\Request;
 	use function PHPUnit\Framework\isEmpty;
+	use function PHPUnit\Framework\never;
 	
 	class AdminController extends Controller
 	{
@@ -32,12 +33,15 @@
 			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' ) );
 		}
 		
-		public function viewPage(Request $request){
+		public function patientInfo ( Request $request )
+		{
 			$patients = Appointment ::all ();
+			$count = Appointment::all ();
 			foreach ( $patients as $patient ) {
 				if ( \request ( 'patientID' ) == $patient -> id ) {
-					return view ( 'pages.patient-info' , compact ( 'patient' ) );
+					return view ( 'pages.patient-info' , compact ( 'patient', 'patients' , 'count' ) );
 				}
 			}
+			return abort ( '404' );
 		}
 	}

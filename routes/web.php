@@ -21,7 +21,7 @@
 	Route ::controller ( AdminController::class ) -> group ( function () {
 		Route ::get ( '/admin' , AdminController::class ) -> name ( 'admin' );
 		Route ::get ( '/patient-list' , 'patientList' ) -> name ( 'patient-list' );
-		Route ::get ( '/patient-list/{patientID}' , [ AdminController::class , 'viewPage' ] );
+		Route ::get ( '/patient-list/{patientID}' , [ AdminController::class , 'patientInfo' ] );
 	} );
 	
 	Route ::post ( '/appointment' , [ RequestFormController::class , 'create' ] );

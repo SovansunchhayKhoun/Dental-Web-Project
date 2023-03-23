@@ -10,12 +10,12 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				
+
 				{{--				brand--}}
 				<div class="px-2 py-1">
 					@include('profile.partials.dental-brand', [$text_color= 'text-white', $img_height = '40px'])
 				</div>
-			
+
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="sidebar-menu">

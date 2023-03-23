@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class OurDoctorController extends Controller
 {
-    //
 	public function __invoke(){
 		$doctors = OurDoctor::all ();
 		return view('profile.partials.our-doctor', compact ('doctors'));
