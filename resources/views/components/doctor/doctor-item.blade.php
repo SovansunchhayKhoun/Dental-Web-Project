@@ -1,8 +1,9 @@
+@if($doctor['acc_type'] == 'Doctor')
 <div class="mb-24 md:mb-0">
     <div class="rounded-lg border shadow-lg h-full block bg-white">
         <div class="flex justify-center">
             <div class="flex justify-center" style="margin-top: -75px">
-                <img src="assets/image/1.jpg" class="mx-auto shadow-lg" alt=""
+                <img src="{{$doctor->photo ? asset('storage/' . $doctor->photo) : ('assets/image/1.jpg')}}" class="mx-auto shadow-lg" alt=""
                     style="border-radius: 50%; height:200px" />
             </div>
         </div>
@@ -28,3 +29,4 @@
         </div>
     </div>
 </div>
+@endif

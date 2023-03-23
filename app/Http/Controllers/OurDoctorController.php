@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OurDoctor;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OurDoctorController extends Controller
 {
 	public function __invoke(){
-		$doctors = OurDoctor::all ();
+		$doctors = User::all ();
 		return view('profile.partials.our-doctor', compact ('doctors'));
 	}
 }
