@@ -32,7 +32,7 @@
 			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' ) );
 		}
 		
-		public function viewPage(Request $request ){
+		public function viewPage(Request $request){
 			$patients = Appointment ::all ();
 			foreach ( $patients as $patient ) {
 				if ( \request ( 'patientID' ) == $patient -> id ) {

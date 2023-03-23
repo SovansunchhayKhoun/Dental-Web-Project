@@ -1,5 +1,18 @@
 @extends('layouts.master')
 @section('content')
+	<style>
+      @media only screen and (max-width: 768px) {
+          .doctor-container {
+              grid-template-columns: repeat(2, 1fr);
+          }
+      }
+
+      @media only screen and (max-width: 640px) {
+          .doctor-container {
+              grid-template-columns: repeat(1, 1fr);
+          }
+      }
+	</style>
 	<!-- Container for demo purpose -->
 	<div class="container py-12 px-6 mx-auto">
 		
@@ -14,7 +27,7 @@
 			@if(count($doctors) == 0)
 				<label> No Doctor</label>
 			@endif
-			<div class="grid gap-x-6 gap-y-32 lg:gap-x-12 md:grid-cols-3 max-md:gap-y-6">
+			<div style="column-gap: 4rem" class="doctor-container grid grid-cols-3 gap-y-32 max-md:grid-cols-2">
 				@foreach($doctors as $doctor)
 					<div class="mb-24 md:mb-0">
 						<div class="rounded-lg border shadow-lg h-full block bg-white">

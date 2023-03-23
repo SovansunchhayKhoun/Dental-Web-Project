@@ -1,7 +1,8 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,700&family=Montserrat:wght@100;300;400;500;600;700&display=swap');
+
     img {
-        height: 60px;
+        min-height: 60px;
     }
 
     .underline-animation {
@@ -30,6 +31,17 @@
         cursor: pointer;
     }
 
+    @media only screen and (max-width: 768px) {
+        .navigation {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: 768px) {
+        .dropdown-menu {
+            display: none;
+        }
+    }
 </style>
 
 <nav class="sticky top-0 bg-white">
@@ -39,7 +51,7 @@
 	$img_height = ''])
 		{{--		right side--}}
 		<div style="font-family: Monospace">
-			<div class="max-sm:hidden flex gap-4 items-center">
+			<div class="navigation flex gap-4 items-center">
 				<a href="{{ url('/') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Home</a>
 				<a href="{{ url('/') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Services</a>
 				<a href="{{ url('/our-doctor') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Our Doctors</a>
@@ -49,7 +61,7 @@
 					 class="px-4 py-2 text-lg italic rounded-full hover:cursor-pointer hover: active:opacity-80">Appointment</a>
 			</div>
 			{{--			dropdown when small --}}
-			<div class="sm:hidden relative inline-block text-left">
+			<div class="dropdown-menu relative inline-block text-left">
 				<div>
 					<button type="button" id="dropdownDefaultButton" data-dropdown-toggle="dropdown"
 									class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"

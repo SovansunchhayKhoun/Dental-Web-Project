@@ -2,15 +2,15 @@
 	
 	use App\Http\Controllers\AdminController;
 	use App\Http\Controllers\OurDoctorController;
-	use App\Http\Controllers\PatientController;
 	use App\Http\Controllers\RequestFormController;
-	use App\Http\Controllers\ProfileController;
 	use App\Models\Appointment;
 	use Illuminate\Http\Request;
 	use Illuminate\Support\Facades\Route;
 	
 	
-	Route ::get ( '/' , RequestFormController::class );
+	Route ::get ( '/' , function(){
+		return view('welcome');
+	});
 	
 	Route ::get ( '/appointment' , function () {
 		return view ( 'pages.appointment' );

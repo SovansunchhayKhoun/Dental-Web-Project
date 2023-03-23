@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class RequestFormController extends Controller
 {
-	public function __invoke(){
-		return view('welcome');
-	}
 	
 	public function create(){
 		Appointment::create([
