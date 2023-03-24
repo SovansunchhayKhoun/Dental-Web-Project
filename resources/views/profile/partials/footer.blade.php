@@ -11,7 +11,7 @@
         <div class="flex justify-center flex-1">
             <div class=" mb-6 md:mb-0">
                 <div class="flex items-center">
-                    <img src="assets/image/logo.png" class="h-20 w-20 mr-6 rounded-full" alt="avarta" />
+                    <img src="{{ asset ('assets/image/logo.png') }}" class="h-20 w-20 mr-6 rounded-full" alt="avarta" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white flex">Smile
                         Line</span>
                 </div>
@@ -57,18 +57,18 @@
                 <h2 class="mb-6 text-md font-semibold text-gray-900 uppercase dark:text-white">Our Certificate</h2>
                 <div class="hover:underline md items-center flex sm:flex-wrap">
                     <a href="index.html" class="py-4">
-                        <img src="assets/image/logo.png" class="h-14 w-14 mr-6 sm:mr-4 rounded-full" alt="avarta" />
+                        <img src="{{ asset ('assets/image/logo.png') }}" class="h-14 w-14 mr-6 sm:mr-4 rounded-full" alt="avarta" />
                     </a>
                     <a href="index.html" class="py-4">
-                        <img src="assets/image/logo.png" class=" h-14 w-14 mr-6 sm:mr-4 rounded-full" alt="avarta" />
+                        <img src="{{ asset ('assets/image/logo.png') }}" class=" h-14 w-14 mr-6 sm:mr-4 rounded-full" alt="avarta" />
                     </a>
                 </div>
                 <div class="hover:underlinemd items-center flex sm:flex-wrap ">
                     <a href="index.html" class="py-4">
-                        <img src="assets/image/logo.png" class="h-14 w-14 mr-6 sm:mr-4 rounded-full" alt="avarta" />
+                        <img src="{{ asset ('assets/image/logo.png') }}" class="h-14 w-14 mr-6 sm:mr-4 rounded-full" alt="avarta" />
                     </a>
                     <a href="index.html" class="py-4">
-                        <img src="assets/image/logo.png" class=" h-14 w-14 sm:mr-4 rounded-full" alt="avarta" />
+                        <img src="{{ asset ('assets/image/logo.png') }}" class=" h-14 w-14 sm:mr-4 rounded-full" alt="avarta" />
                     </a>
                 </div>
             </div>

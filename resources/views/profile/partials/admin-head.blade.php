@@ -16,22 +16,22 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
       } </script>
 	
 	<!-- Bootstrap Core CSS -->
-	<link href="css/bootstrap.css" rel='stylesheet' type='text/css'/>
+	<link href="{{ asset ('css/bootstrap.css') }}" rel='stylesheet' type='text/css'/>
 	
 	<!-- Custom CSS -->
-	<link href="css/style.css" rel='stylesheet' type='text/css'/>
+	<link href="{{ asset ('css/style.css') }}" rel='stylesheet' type='text/css'/>
 	
 	<!-- font-awesome icons CSS -->
-	<link href="css/font-awesome.css" rel="stylesheet">
+	<link href="{{ asset ('css/font-awesome.css') }}" rel="stylesheet">
 	<!-- //font-awesome icons CSS-->
 	
 	<!-- side nav css file -->
-	<link href='css/SidebarNav.min.css' media='all' rel='stylesheet' type='text/css'/>
+	<link href='{{ asset ('css/SidebarNav.min.css') }}' media='all' rel='stylesheet' type='text/css'/>
 	<!-- //side nav css file -->
 	
 	<!-- js-->
-	<script src="js/jquery-1.11.1.min.js"></script>
-	<script src="js/modernizr.custom.js"></script>
+	<script src="{{ asset('js/jquery-1.11.1.min.js') }}"></script>
+	<script src="{{ asset('js/modernizr.custom.js') }}"></script>
 	
 	<!--webfonts-->
 	<link href="//fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&amp;subset=cyrillic,cyrillic-ext,latin-ext"
@@ -39,13 +39,13 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!--//webfonts-->
 	
 	<!-- chart -->
-	<script src="js/Chart.js"></script>
+	<script src="{{ asset('js/Chart.js') }}"></script>
 	<!-- //chart -->
 	
 	<!-- Metis Menu -->
-	<script src="js/metisMenu.min.js"></script>
-	<script src="js/custom.js"></script>
-	<link href="css/custom.css" rel="stylesheet">
+	<script src="{{ asset ('js/metisMenu.min.js') }}"></script>
+	<script src="{{ asset('js/custom.js') }}"></script>
+	<link href="{{ asset('css/custom.css') }}" rel="stylesheet">
 	<!--//Metis Menu -->
 	<style>
       #chartdiv {
@@ -54,7 +54,7 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
       }
 	</style>
 	<!--pie-chart --><!-- index page sales reviews visitors pie chart -->
-	<script src="js/pie-chart.js" type="text/javascript"></script>
+	<script src="{{ asset('js/pie-chart.js') }}" type="text/javascript"></script>
 	<script type="text/javascript">
       $(document).ready(function () {
           $('#demo-pie-1').pieChart({
@@ -94,8 +94,8 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	<!-- //pie-chart --><!-- index page sales reviews visitors pie chart -->
 	
 	<!-- requried-jsfiles-for owl -->
-	<link href="css/owl.carousel.css" rel="stylesheet">
-	<script src="js/owl.carousel.js"></script>
+	<link href="{{ asset('css/owl.carousel.css') }}" rel="stylesheet">
+	<script src="{{ asset('js/owl.carousel.js') }}"></script>
 	<script>
       $(document).ready(function () {
           $("#owl-demo").owlCarousel({
