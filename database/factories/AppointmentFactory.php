@@ -19,7 +19,6 @@
 			return [
 				'firstName' => fake () -> firstName () ,
 				'lastName' => fake () -> lastName () ,
-				'fullName' => fake()->name(),
 				'phoneNum' => fake () -> phoneNumber () ,
 				'email' => fake () -> email () ,
 				'birthday' => fake () -> date () ,

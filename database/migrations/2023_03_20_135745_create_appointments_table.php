@@ -19,7 +19,6 @@ return new class extends Migration
             $table->id();
             $table->string('firstName');
             $table->string('lastName');
-            $table->string('fullName');
             $table->string('phoneNum');
             $table->string('email');
             $table->string('appointedDoctor')->nullable();

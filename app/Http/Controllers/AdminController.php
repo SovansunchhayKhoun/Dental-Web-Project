@@ -3,6 +3,7 @@
 	namespace App\Http\Controllers;
 	
 	use App\Models\Appointment;
+	use App\Models\User;
 	use Illuminate\Http\Request;
 	use function PHPUnit\Framework\isEmpty;
 	use function PHPUnit\Framework\never;
@@ -11,37 +12,40 @@
 	{
 		public function __invoke ()
 		{
-			$count = count ( Appointment ::all () );
-			return view ( 'layouts.admin' , [
-				'patients' => Appointment ::latest () -> paginate ( 6 ) ,
-				'count' => $count
-			] );
+			$doctors = User ::all ();
+			$count = count ( User ::all () );
+			$mailCount = $count;
+			return view('layouts.admin', compact ('doctors', 'count', 'mailCount'));
 		}
 		
-		public function patientList ()
+		public function index ()
 		{
-			$patients = Appointment ::latest () -> paginate ( 6 );
-			
-			$search = request () -> query ( 'appointment' );
-			$count = count ( Appointment ::all () );
-			
-			if ( $search ) {
-				$patients = Appointment ::where ( 'fullName' , 'LIKE' , "%{$search}%" ) -> paginate ( 6 );
-			} else {
-				$patients = Appointment ::latest () -> paginate ( 6 );
-			}
-			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' ) );
+//			$patients = Appointment ::latest () -> paginate ( 6 );
+			$doctors = User ::all ();
+			$count = count ( User ::all () );
+			$mailCount = $count;
+			return view ( 'pages.doctor-list' , compact ( 'doctors' , 'count' , 'mailCount' ) );
 		}
 		
-		public function patientInfo ( Request $request )
+		public function show ( User $user )
 		{
-			$patients = Appointment ::all ();
-			$count = Appointment::all ();
-			foreach ( $patients as $patient ) {
-				if ( \request ( 'patientID' ) == $patient -> id ) {
-					return view ( 'pages.patient-info' , compact ( 'patient', 'patients' , 'count' ) );
-				}
-			}
-			return abort ( '404' );
+			$doctors = User ::all ();
+			$count = count ( Appointment ::all () );
+			$mailCount = $count;
+			return view ( 'pages.edit-doctor' , compact ( 'user', 'count', 'mailCount' ) );
 		}
+		
+//		public function patientList ()
+//		{
+//			$search = request () -> query ( 'appointment' );
+//			if ( $search ) {
+//				$patients = Appointment ::where ( 'firstName' , 'LIKE' , "%{$search}%" )
+//					-> orwhere('lastName', 'LIKE', "%{$search}%")->paginate(6);
+//				$count = count($patients);
+//			} else {
+//				$patients = Appointment ::latest () -> paginate ( 6 );
+//				$count = count(Appointment::all());
+//			}
+//			return view ( 'pages.patient-list' , compact ( 'count', 'patients' ) );
+//		}
 	}

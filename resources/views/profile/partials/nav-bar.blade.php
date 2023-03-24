@@ -1,6 +1,10 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,700&family=Montserrat:wght@100;300;400;500;600;700&display=swap');
 
+    a {
+        font-family: Montserrat, monospace;
+    }
+
     img {
         min-height: 60px;
     }
@@ -45,19 +49,18 @@
 </style>
 
 <nav class="sticky top-0 bg-white">
-	<div class="nav-container shadow-md flex justify-between p-2 items-center">
-		@include('profile.partials.dental-brand', [($text_color = 'text-black'), ($img_height = '')])
+	<div class="nav-container shadow-md flex justify-between py-1 px-2 items-center">
+		@include('profile.partials.dental-brand', [($text_color = 'text-black'), ($img_height = '10px')])
 		{{--		right side --}}
-		<div style="font-family: Monospace">
+		<div>
 			<div class="navigation flex gap-4 items-center">
-				<a href="{{ url('/') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Home</a>
-				<a href="{{ url('/') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Services</a>
-				<a href="{{ url('/our-doctor') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Our
+				<a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Home</a>
+				<a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Services</a>
+				<a href="{{ url('/our-doctor') }}" class="text-md hover:cursor-pointer underline-animation">Our
 					Doctors</a>
-				<a href="{{ url('/') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Contact</a>
-				<a href="{{ url('/') }}" class="p-1 text-lg hover:cursor-pointer underline-animation">Community</a>
-				<a style="background-color: #65C7D0" href="{{ url('/appointment') }}"
-					 class="px-4 py-2 text-lg italic rounded-full hover:cursor-pointer hover: active:opacity-80">Appointment</a>
+				<a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Contact</a>
+				<a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Community</a>
+			
 			</div>
 			{{--			dropdown when small --}}
 			<div class="dropdown-menu relative inline-block text-left">
@@ -94,6 +97,10 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="navigation">
+			<a style="background-color: #65C7D0" href="{{ url('/appointment') }}"
+				 class="px-4 py-2 text-md italic rounded-full hover:cursor-pointer hover: active:opacity-80">Appointment</a>
 		</div>
 	</div>
 

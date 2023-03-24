@@ -1,6 +1,6 @@
-<div>{{ $patient->firstName }}</div>
-<div>{{ $patient->lastName }}</div>
-<div>{{ $patient->phoneNum }}</div>
-<div>{{ $patient->email }}</div>
-<div>{{ $patient->appointmentDate }}</div>
-<div>{{ $patient->message }}</div>
+<div>{{ $appointment->firstName }}</div>
+<div>{{ $appointment->lastName }}</div>
+<div>{{ $appointment->phoneNum }}</div>
+<div>{{ $appointment->email }}</div>
+<div>{{ $appointment->appointmentDate }}</div>
+<div>{{ $appointment->message }}</div>

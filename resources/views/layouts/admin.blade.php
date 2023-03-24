@@ -9,6 +9,6 @@
 		@yield('content')
 	</div>
 </div>
-@include('pages.adminJs')
+@include('profile.partials.adminJs')
 </body>
 </html>

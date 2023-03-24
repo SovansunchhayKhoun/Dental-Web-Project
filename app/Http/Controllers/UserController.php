@@ -4,6 +4,7 @@
 	
 	use App\Models\Appointment;
 	use App\Models\OurDoctor;
+	use App\View\Components\Patient\PatientItem;
 	use Illuminate\Http\Request;
 	use App\Models\User;
 	use Illuminate\Support\Facades\App;
@@ -19,11 +20,14 @@
 		// }
 		public function index ()
 		{
-			$count = Appointment ::all ();
-			return view ( 'pages.doctor-list' , [
-				'doctors' => User ::all () ,
-				'count' => $count
-			] );
+			$patients = Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> paginate ( 6 );
+			$count = count ( Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
+			$mailCount = count ( Appointment :: where ( 'appointedDoctor' , NULL ) -> get () );
+			return view ( 'layouts.admin' , compact (
+				'patients' ,
+				'count' ,
+				'mailCount'
+			) );
 		}
 		
 		public function register ()
@@ -69,7 +73,7 @@
 			if ( auth () -> attempt ( $formField ) ) {
 				$request -> session () -> regenerate ();
 				if ( auth () -> user () -> acc_type == 'Doctor' ) {
-					return redirect ( '/doctor' );
+					return redirect ( '/doctor/' . auth () -> user () -> name );
 				} else {
 					return redirect ( '/admin' );
 				}
@@ -84,10 +88,38 @@
 			$request -> session () -> regenerateToken ();
 			return redirect ( '/' ) -> with ( 'message' , 'You have been log out' );
 		}
-		
-		public function show ( User $user )
+		public function patientInfo (Appointment $appointment)
 		{
-			return view ( 'pages.doctor-info' , compact ('user') );
+			return view ( 'pages.patient-info', compact ('appointment'));
+		}
+		public function myPatients ( Auth $auth )
+		{
+			$patients = Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> paginate ( 6 );
+			$mailCount = count ( Appointment :: where ( 'appointedDoctor' , NULL ) -> get () );
+			$count = count ( Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
+			return view ( 'pages.patient-list' , compact ( 'patients' , 'mailCount' , 'count' ) );
+		}
+		
+		public function myMail ()
+		{
+			$patients = Appointment :: where ( 'appointedDoctor' , NULL ) -> paginate ( 6 );
+			$mailCount = count ( Appointment :: where ( 'appointedDoctor' , NULL ) -> get () );
+			$count = count ( Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
+			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' , 'mailCount' ) );
+		}
+
+		public function search(){
+			$search = request () -> query ( 'appointment' );
+			$mailCount = count ( Appointment :: where ( 'appointedDoctor' , NULL ) -> get () );
+			if ( $search ) {
+				$patients = Appointment ::where ( 'firstName' , 'LIKE' , "%{$search}%" )
+					-> orwhere('lastName', 'LIKE', "%{$search}%")->paginate(6);
+				$count = count($patients);
+			} else {
+				$patients = Appointment ::latest () -> paginate ( 6 );
+				$count = count(Appointment::all());
+			}
+			return view ( 'pages.patient-list' , compact ( 'count', 'patients', 'mailCount') );
 		}
 	}
 	

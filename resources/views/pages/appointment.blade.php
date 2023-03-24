@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Appointment')
+@section('title', 'Make an Appointment')
 @section('headerName', 'Book an Appointment')
 @section('content')
 	<section class="mt-3">

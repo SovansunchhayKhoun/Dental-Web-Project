@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Our Doctors')
 @section('content')
     <style>
         @media only screen and (max-width: 768px) {

@@ -9,22 +9,24 @@
 	use Illuminate\Support\Facades\Route;
 	use App\Http\Controllers\UserController;
 	
-	
 	Route ::get ( '/' , function () {
 		return view ( 'welcome' );
 	} );
 	
-	Route ::get ( '/appointment' , function () {
-		return view ( 'pages.appointment' );
+	Route ::controller ( RequestFormController::class ) -> group ( function () {
+		Route ::get ( '/appointment' , RequestFormController::class );
+		Route ::post ( '/appointment' , 'store' );
 	} );
-	Route ::post ( '/appointment' , [ RequestFormController::class , 'create' ] );
-
-	Route ::get ( '/our-doctor' , OurDoctorController::class );
+	
+	Route ::controller ( OurDoctorController::class ) -> group ( function () {
+		Route ::get ( '/our-doctor' , OurDoctorController::class );
+		Route ::get ( '/our-doctor/{user}' , 'show' );
+	} );
 	
 	Route ::controller ( AdminController::class ) -> group ( function () {
 		Route ::get ( '/admin' , AdminController::class ) -> name ( 'admin' );
-		Route ::get ( '/patient-list' , 'patientList' ) -> name ( 'patient-list' );
-		Route ::get ( '/patient-list/{patientID}' , 'patientInfo' );
+		Route ::get ( '/admin/doctor-list' , 'index' );
+		Route ::get ( '/admin/doctor-list/{user}' , 'show' );
 	} );
 	
 	Route ::controller ( UserController::class ) -> group ( function () {
@@ -33,12 +35,20 @@
 //create user
 		Route ::post ( '/register/user' , 'store' );
 //redirect to register view
-		Route ::get ( '/login' , [ UserController::class , 'login' ] );
+		Route ::get ( '/login' , 'login' );
 		Route ::post ( '/login/authenticate' , 'authenticate' );
 //logout
 		Route ::post ( '/logout' , 'logout' );
-		Route ::get ( '/our-doctor/{user}' , 'show' );
+		
+		Route ::get ( '/doctor/{user}' , 'index' );
+		//Show patients according to doctor
+		Route ::get ( '/doctor/{user}/patient-list' , 'myPatients' );
+		Route ::get ( '/doctor/{user}/mailbox' , 'myMail' );
+		Route ::get ( '/doctor/{user}/{appointment}' , 'search' );
+		
+		Route ::get ( '/appointment/{appointment}' , 'patientInfo' );
 	} );
+	
 
 
 

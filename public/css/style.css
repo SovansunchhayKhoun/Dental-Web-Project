@@ -311,7 +311,7 @@ ul.dropdown-menu{
     color: #383838;
     padding: 0.5em 1em;
     border: 1px solid #8c8c8c;
-    background: url(../images/search-icon.png) no-repeat 160px 12px;
+    background: url(../images/search-icon.png) no-repeat 95% 50%;
 	-webkit-appearance: none; /* for box shadows to show on iOS */
 }
 .sb-search-input::-webkit-input-placeholder {
@@ -7099,7 +7099,7 @@ h4.asd label {
 	}
 	.sb-search-input {
 		width: 80%;
-		background: url(../images/search-icon.png) no-repeat 130px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 	.search-box {
 		width: 46%;
@@ -7167,7 +7167,7 @@ h4.asd label {
 	}
 	.sb-search-input {
 		width: 80%;
-		background: url(../images/search-icon.png) no-repeat 100px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 	.button_set_one.three .btn {
 		margin: 5px 2px 0;
@@ -7225,7 +7225,7 @@ h4.asd label {
 	}
 	.sb-search-input {
 		width: 80%;
-		background: url(../images/search-icon.png) no-repeat 120px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 	.login-page, .signup-page {
 		width: 60%;
@@ -7533,7 +7533,7 @@ h4.asd label {
 	}
 	.sb-search-input {
 		width: 90%;
-		background: url(../images/search-icon.png) no-repeat 110px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 	.login-page, .signup-page {
 		width: 70%;
@@ -7846,7 +7846,7 @@ h4.asd label {
 	}
 	.sb-search-input {
 		width: 90%;
-		background: url(../images/search-icon.png) no-repeat 160px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 	.stat {
 		width: 100%;
@@ -7902,7 +7902,7 @@ h4.asd label {
 @media(max-width:414px){
 	.sb-search-input {
 		width: 90%;
-		background: url(../images/search-icon.png) no-repeat 135px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 	.r3_counter_box .fa {
 		font-size: 20px;
@@ -7944,7 +7944,7 @@ h4.asd label {
 	}
 	.sb-search-input {
 		width: 90%;
-		background: url(../images/search-icon.png) no-repeat 130px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 	ul.bt-list li a {
 		width: 100%;
@@ -7953,7 +7953,7 @@ h4.asd label {
 @media(max-width:375px){
 	.sb-search-input {
 		width: 90%;
-		background: url(../images/search-icon.png) no-repeat 125px 12px;
+		background: url(../images/search-icon.png) no-repeat 95% 12px;
 	}
 }
 @media(max-width:320px){

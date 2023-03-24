@@ -6,7 +6,7 @@
             <div style="background-color: white"
                 class="px-3 py-2 rounded-lg parent-card flex justify-between items-center mb-3">
                 <div class="left-section flex flex-col" style="color: #4F9298">
-                    <a href=" {{ url('/doctor-list/') }}/{{ $doctor->id }}" class="font-bold">
+                    <a href=" {{ url('/admin/doctor-list/'.$doctor->id) }}" class="font-bold">
                         {{ $doctor->title }} {{ $doctor->name }}
                         <sup class="font-normal italic">
                             #{{ $doctor->id }}

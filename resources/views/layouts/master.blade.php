@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
-@include('profile.partials.master-head')
+@include('layouts.master-head')
 <body style="">
 @include('profile.partials.nav-bar')
 @yield('content')

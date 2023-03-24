@@ -2,7 +2,6 @@
     <div class="mb-24 md:mb-0">
         <a href="/our-doctor/{{ $doctor->id }}">
             <div class="rounded-lg border shadow-lg h-full block bg-white">
-
                 <div class="flex justify-center">
                     <div class="flex justify-center" style="margin-top: -75px">
                         <img src="{{ $doctor->photo ? asset('storage/' . $doctor->photo) : 'assets/image/1.jpg' }}"

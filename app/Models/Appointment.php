@@ -9,5 +9,5 @@
 	{
 		use HasFactory;
 		
-		protected $fillable = [ 'fullName', 'firstName' , 'lastName' , 'phoneNum' , 'email' , 'password' , 'birthday' , 'appointmentDate' , 'message' ];
+		protected $fillable = ['firstName' , 'lastName' , 'phoneNum' , 'email' , 'password' , 'birthday' , 'appointmentDate' , 'message' ];
 	}

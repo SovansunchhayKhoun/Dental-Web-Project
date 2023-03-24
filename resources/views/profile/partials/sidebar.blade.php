@@ -10,39 +10,41 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-
+				
 				{{--				brand--}}
 				<div class="px-2 py-1">
 					@include('profile.partials.dental-brand', [$text_color= 'text-white', $img_height = '40px'])
 				</div>
-
+			
 			</div>
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 				<ul class="sidebar-menu">
 					<li class="header">MAIN NAVIGATION</li>
 					<li class="treeview">
-						<a href="{{ route('admin') }}">
+						<a href="{{ auth()->user()->acc_type == 'Doctor' ? url('/doctor/'.auth()->user()->name ) : '/admin' }}">
 							<i class="fa fa-dashboard"></i> <span>Home</span>
 						</a>
 					</li>
-					<li>
-						<a href="{{ route('patient-list') }}">
-							<i class="fa fa-th"></i> <span>Patient List</span>
-							<small class="label pull-right label-info {{ count($patients) == 0 ? 'hidden' : '' }}">
-									{{ $count }}
-							</small>
-						</a>
-					</li>
-					<li class="treeview">
+					@if(auth()->user()->acc_type == 'admin')
+						<x-user-list url="/admin/doctor-list" count="{{$count}}" user-type="Doctor"/>
+					@else
+						<x-user-list url="/doctor/{{auth()->user ()->name}}/patient-list" count="{{$count}}" user-type="Patients"/>
+					@endif
+					
+					{{--					hidden if acc_type = admin--}}
+					<li class="treeview {{ auth()->user()->acc_type == 'admin' ? "hidden" : "" }}">
 						<a href="#">
 							<i class="fa fa-envelope"></i> <span>Mailbox</span>
-							<i class="fa fa-angle-left pull-right"></i><small class="label pull-right label-info1">08</small><span
-								class="label label-primary1 pull-right">02</span></a>
+							<i class="fa fa-angle-left pull-right"></i><small class="label pull-right label-info1">08</small>
+							{{--							patients with no doctor appointed--}}
+							<span class="label label-primary1 pull-right">{{ $mailCount }}</span></a>
 						<ul class="treeview-menu">
-							<li><a href="inbox.html"><i class="fa fa-angle-right"></i> Mail Inbox</a></li>
+							<li><a href="{{ url('/doctor/'.auth ()->user ()->name.'/mailbox') }}"><i class="fa fa-angle-right"></i>
+									Mail Inbox</a></li>
 							<li><a href="compose.html"><i class="fa fa-angle-right"></i> Compose Mail </a></li>
 						</ul>
 					</li>
+					{{--					//hidden if acc_type = admin--}}
 					<li class="treeview">
 						<a href="#">
 							<i class="fa fa-folder"></i> <span>Examples</span>

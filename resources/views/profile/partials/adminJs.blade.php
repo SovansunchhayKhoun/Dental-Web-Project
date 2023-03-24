@@ -1,7 +1,7 @@
 <!-- new added graphs chart js-->
 
-<script src="js/Chart.bundle.js"></script>
-<script src="js/utils.js"></script>
+<script src="{{ asset('js/Chart.bundle.js') }}"></script>
+<script src="{{ asset('js/utils.js') }}"></script>
 
 <script>
     var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -123,7 +123,7 @@
 <!-- new added graphs chart js-->
 
 <!-- Classie --><!-- for toggle left push menu script -->
-<script src="js/classie.js"></script>
+<script src="{{ asset('js/classie.js') }}"></script>
 <script>
     var menuLeft = document.getElementById('cbp-spmenu-s1'),
         showLeftPush = document.getElementById('showLeftPush'),
@@ -146,19 +146,19 @@
 <!-- //Classie --><!-- //for toggle left push menu script -->
 
 <!--scrolling js-->
-<script src="js/jquery.nicescroll.js"></script>
-<script src="js/scripts.js"></script>
+<script src="{{ asset('js/jquery.nicescroll.js') }}"></script>
+<script src="{{ asset('js/scripts.js') }}"></script>
 <!--//scrolling js-->
 
 <!-- side nav js -->
-<script src='js/SidebarNav.min.js' type='text/javascript'></script>
+<script src='{{ asset('js/SidebarNav.min.js') }}' type='text/javascript'></script>
 <script>
     $('.sidebar-menu').SidebarNav()
 </script>
 <!-- //side nav js -->
 
 <!-- for index page weekly sales java script -->
-<script src="js/SimpleChart.js"></script>
+<script src="{{ asset('js/SimpleChart.js') }}"></script>
 <script>
     var graphdata1 = {
         linecolor: "#CCA300",
@@ -416,6 +416,6 @@
 
 
 <!-- Bootstrap Core JavaScript -->
-<script src="js/bootstrap.js"></script>
+<script src="{{ asset('js/bootstrap.js') }}"></script>
 <!-- //Bootstrap Core JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
