@@ -12,9 +12,11 @@ class PatientItem extends Component
      * @return void
      */
     public $patient;
-    public function __construct($patient)
+    public $doctors;
+    public function __construct($patient,$doctors)
     {
         $this->patient = $patient;
+        $this->doctors = $doctors;
     }
 
     /**
