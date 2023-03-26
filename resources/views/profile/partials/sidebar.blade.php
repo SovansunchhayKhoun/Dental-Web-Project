@@ -32,17 +32,12 @@
 					@endif
 					
 					{{--					hidden if acc_type = admin--}}
-					<li class="treeview {{ auth()->user()->acc_type == 'admin' ? "hidden" : "" }}">
-						<a href="#">
+					<li class="treeview" {{ auth()->user ()->acc_type == 'Doctor' ? "hidden" : "" }}>
+						<a href="{{ url('/admin/mailbox') }}">
 							<i class="fa fa-envelope"></i> <span>Mailbox</span>
-							<i class="fa fa-angle-left pull-right"></i><small class="label pull-right label-info1">08</small>
 							{{--							patients with no doctor appointed--}}
-							<span class="label label-primary1 pull-right">{{ $mailCount }}</span></a>
-						<ul class="treeview-menu">
-							<li><a href="{{ url('/doctor/'.auth ()->user ()->name.'/mailbox') }}"><i class="fa fa-angle-right"></i>
-									Mail Inbox</a></li>
-							<li><a href="compose.html"><i class="fa fa-angle-right"></i> Compose Mail </a></li>
-						</ul>
+							<span class="label label-primary1 pull-right {{ $mailCount == 0 ? 'hidden' : '' }}">{{ $mailCount }}</span>
+						</a>
 					</li>
 					{{--					//hidden if acc_type = admin--}}
 					<li class="treeview">

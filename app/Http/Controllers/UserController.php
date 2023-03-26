@@ -90,7 +90,9 @@
 		}
 		public function patientInfo (Appointment $appointment)
 		{
-			return view ( 'pages.patient-info', compact ('appointment'));
+			$count = 0;
+			$mailCount = 0;
+			return view ( 'pages.patient-info', compact ('appointment', 'count', 'mailCount'));
 		}
 		public function myPatients ( Auth $auth )
 		{
@@ -100,13 +102,13 @@
 			return view ( 'pages.patient-list' , compact ( 'patients' , 'mailCount' , 'count' ) );
 		}
 		
-		public function myMail ()
-		{
-			$patients = Appointment :: where ( 'appointedDoctor' , NULL ) -> paginate ( 6 );
-			$mailCount = count ( Appointment :: where ( 'appointedDoctor' , NULL ) -> get () );
-			$count = count ( Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
-			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' , 'mailCount' ) );
-		}
+//		public function myMail ()
+//		{
+//			$patients = Appointment :: where ( 'appointedDoctor' , NULL ) -> paginate ( 6 );
+//			$mailCount = count ( Appointment :: where ( 'appointedDoctor' , NULL ) -> get () );
+//			$count = count ( Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
+//			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' , 'mailCount' ) );
+//		}
 
 		public function search(){
 			$search = request () -> query ( 'appointment' );
@@ -120,6 +122,17 @@
 				$count = count(Appointment::all());
 			}
 			return view ( 'pages.patient-list' , compact ( 'count', 'patients', 'mailCount') );
+		}
+		
+		public function edit( Appointment $appointment){
+//			dd(\request ()->input('firstName'));
+			$appointment->firstName = request('firstName');
+			$appointment->lastName = request('lastName');
+			$appointment->appointedDoctor = request('appointedDoctor');
+			$appointment->email = request('email');
+			$appointment->phoneNum = request('phoneNum');
+			$appointment->update ();
+			return redirect ()->back ();
 		}
 	}
 	
