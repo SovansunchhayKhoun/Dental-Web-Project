@@ -27,6 +27,7 @@
 		Route ::get ( '/admin' , AdminController::class ) -> name ( 'admin' );
 		Route ::get ( '/admin/doctor-list' , 'index' );
 		Route ::get ( '/admin/doctor-list/{user}' , 'show' );
+		Route::get('/admin/mailbox', "myMail");
 	} );
 	
 	Route ::controller ( UserController::class ) -> group ( function () {
@@ -43,10 +44,11 @@
 		Route ::get ( '/doctor/{user}' , 'index' );
 		//Show patients according to doctor
 		Route ::get ( '/doctor/{user}/patient-list' , 'myPatients' );
-		Route ::get ( '/doctor/{user}/mailbox' , 'myMail' );
+//		Route ::get ( '/doctor/{user}/mailbox' , 'myMail' );
 		Route ::get ( '/doctor/{user}/{appointment}' , 'search' );
 		
 		Route ::get ( '/appointment/{appointment}' , 'patientInfo' );
+		Route::get('/appointment/edit/{appointment}', 'edit');
 	} );
 	
 
