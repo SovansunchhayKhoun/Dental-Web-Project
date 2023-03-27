@@ -60,7 +60,7 @@
 					Doctors</a>
 				<a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Contact</a>
 				<a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Community</a>
-			
+
 			</div>
 			{{--			dropdown when small --}}
 			<div class="dropdown-menu relative inline-block text-left">
@@ -101,6 +101,10 @@
 		<div class="navigation">
 			<a style="background-color: #65C7D0" href="{{ url('/appointment') }}"
 				 class="px-4 py-2 text-md italic rounded-full hover:cursor-pointer hover: active:opacity-80">Appointment</a>
+		</div>
+        <div class="navigation">
+			<a style="background-color: #65C7D0" href="{{ url('/login') }}"
+				 class="px-4 py-2 text-md italic rounded-full hover:cursor-pointer hover: active:opacity-80">Sign in</a>
 		</div>
 	</div>
 

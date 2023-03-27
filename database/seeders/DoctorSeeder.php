@@ -1,11 +1,11 @@
 <?php
-	
+
 	namespace Database\Seeders;
-	
+
 	use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 	use Illuminate\Database\Seeder;
 	use Illuminate\Support\Facades\DB;
-	
+
 	class DoctorSeeder extends Seeder
 	{
 		/**
@@ -15,6 +15,17 @@
 		 */
 		public function run ()
 		{
+            DB ::table ( 'users' ) -> insert ( [
+				'title' =>  '' ,
+				'name' => 'Admin' ,
+				'email' => 'admin@domain.com' ,
+				'password' => bcrypt ( 'admin' ) ,
+				'specialist' => '' ,
+				'description' => '' ,
+				'work_experience' => '' ,
+				'acc_type' => 'admin' ,
+			] );
+
 			DB ::table ( 'users' ) -> insert ( [
 				'title' => 'Dr. ' ,
 				'name' => 'Sunchhay Khoun' ,
@@ -25,7 +36,7 @@
 				'work_experience' => 'Nothing' ,
 				'acc_type' => 'Doctor'
 			] );
-			
+
 			DB ::table ( 'users' ) -> insert ( [
 				'title' => 'Dr. ' ,
 				'name' => 'Rethtihpong Em' ,
@@ -36,7 +47,7 @@
 				'work_experience' => 'Nothing' ,
 				'acc_type' => 'Doctor'
 			] );
-			
+
 			DB ::table ( 'users' ) -> insert ( [
 				'title' => 'Dr. ' ,
 				'name' => 'Rattanakpanha Kong' ,
@@ -47,7 +58,7 @@
 				'work_experience' => 'Nothing' ,
 				'acc_type' => 'Doctor'
 			] );
-			
+
 			DB ::table ( 'users' ) -> insert ( [
 				'title' => 'Dr. ' ,
 				'name' => 'Liza John' ,
@@ -58,7 +69,7 @@
 				'work_experience' => 'Nothing' ,
 				'acc_type' => 'Doctor'
 			] );
-			
+
 			DB ::table ( 'users' ) -> insert ( [
 				'title' => 'Dr. ' ,
 				'name' => 'Liza Chan' ,
