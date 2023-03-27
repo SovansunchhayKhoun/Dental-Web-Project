@@ -110,4 +110,5 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	
 	{{--	Tailwind Css--}}
 	@vite('resources/css/app.css')
+	<script src="//unpkg.com/alpinejs" defer></script>
 </head>

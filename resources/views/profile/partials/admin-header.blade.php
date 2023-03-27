@@ -14,10 +14,10 @@
         <!--search-box-->
         <div class="search-box">
             <form
-                action="{{ auth()->user()->acc_type == 'admin' ? '#InsertRedirectPathHere' : '/doctor/' . auth()->user()->name . '/search' }}"
+                action="{{ auth()->user()->acc_type == 'admin' ? '#InsertRedirectPathHere' : '/doctor/search' }}"
                 class="input">
                 <input name="appointment" value="{{ request()->query('appointment') }}"
-                    class="sb-search-input input__field--madoka" placeholder="Search..." type="search"
+                    class="sb-search-input input__field--madoka" placeholder="Search Name..." type="search"
                     id="input-31" />
                 <label class="input__label" for="input-31">
                     <svg class="graphic" width="100%" height="100%" viewBox="0 0 404 77" preserveAspectRatio="none">

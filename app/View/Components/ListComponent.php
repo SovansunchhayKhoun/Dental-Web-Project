@@ -1,22 +1,22 @@
 <?php
 
-namespace App\View\Components\Patient;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class PatientItem extends Component
+class ListComponent extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public $patient;
-//    public $doctors;
-    public function __construct($patient)
+		public $url;
+    public function __construct($url)
     {
-        $this->patient = $patient;
-//        $this->doctors = $doctors;
+        //
+			$this->url = $url;
+			
     }
 
     /**
@@ -26,6 +26,6 @@ class PatientItem extends Component
      */
     public function render()
     {
-        return view('components.patient.patient-item');
+        return view('components.list-component');
     }
 }

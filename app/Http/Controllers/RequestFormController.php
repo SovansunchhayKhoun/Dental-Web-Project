@@ -21,6 +21,6 @@
 				'appointmentDate' => \request ( 'apntDate' ) ,
 				'message' => \request ( 'message' )
 			] );
-			return redirect ( '/appointment');
+			return redirect ( '/appointment')->with('message', 'Appointment Booked');
 		}
 	}

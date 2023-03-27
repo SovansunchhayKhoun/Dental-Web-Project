@@ -1,5 +1,6 @@
 @include('profile.partials.admin-head')
 <body class="mb-48">
+
 <div class="mx-4">
 	<div class="bg-gray-50 border border-gray-200 p-10 rounded max-w-lg mx-auto mt-24">
 		<header class="text-center">
@@ -56,4 +57,5 @@
 		</form>
 	</div>
 </div>
+<x-flash-message/>
 </body>
