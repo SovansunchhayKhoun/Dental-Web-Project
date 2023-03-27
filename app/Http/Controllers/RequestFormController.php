@@ -3,16 +3,21 @@
 	namespace App\Http\Controllers;
 	
 	use App\Models\Appointment;
+	use App\Models\User;
 	use Illuminate\Http\Request;
 	
 	class RequestFormController extends Controller
 	{
-		public function __invoke(){
-			return view('pages.appointment');
+		public function __invoke ()
+		{
+			$user = User ::all () -> first ();
+			return view ( 'pages.appointment' , compact ( 'user' ) );
 		}
-		public function store ()
+		
+		public function store ( User $user )
 		{
 			Appointment ::create ( [
+				'appointedDoctor' => $user -> name ,
 				'firstName' => \request ( 'fName' ) ,
 				'lastName' => \request ( 'lName' ) ,
 				'phoneNum' => \request ( 'phoneNum' ) ,
@@ -21,6 +26,6 @@
 				'appointmentDate' => \request ( 'apntDate' ) ,
 				'message' => \request ( 'message' )
 			] );
-			return redirect ( '/appointment')->with('message', 'Appointment Booked');
+			return redirect ( '/appointment' ) -> with ( 'message' , 'Appointment Booked' );
 		}
 	}

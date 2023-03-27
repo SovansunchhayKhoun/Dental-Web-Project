@@ -23,6 +23,7 @@
 	Route ::controller ( OurDoctorController::class ) -> group ( function () {
 		Route ::get ( '/our-doctor' , OurDoctorController::class );
 		Route ::get ( '/our-doctor/{user}' , 'show' );
+		Route ::post ( '/our-doctor/{user}' , 'store' );
 	} );
 	
 	Route ::controller ( AdminController::class ) -> group ( function () {

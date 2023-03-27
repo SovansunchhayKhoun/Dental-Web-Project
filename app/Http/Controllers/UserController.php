@@ -100,7 +100,8 @@
 		
 		public function patientInfo ( Appointment $appointment )
 		{
-			return view ( 'pages.patient-info' , compact ( 'appointment' ) );
+			$doctors = User::all();
+			return view ( 'pages.patient-info' , compact ( 'appointment', 'doctors') );
 		}
 		
 		public function myPatients ( Auth $auth )

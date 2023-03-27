@@ -10,7 +10,7 @@
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet"/>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
 	{{--	//flowbite css--}}
-
+{{--	<link rel="stylesheet" href="{{ asset ('assets/styles/detail.css') }}">--}}
 	{{--	alpine js--}}
 	<script src="//unpkg.com/alpinejs" defer></script>
 	<link rel="preconnect" href="https://fonts.googleapis.com">

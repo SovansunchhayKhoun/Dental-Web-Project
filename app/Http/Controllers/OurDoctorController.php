@@ -6,7 +6,7 @@ use App\Models\Appointment;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class OurDoctorController extends Controller
+class OurDoctorController extends RequestFormController
 {
 	public function __invoke(){
 		$doctors = User::all ();
