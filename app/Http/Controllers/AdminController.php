@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use function PHPUnit\Framework\isEmpty;
 use function PHPUnit\Framework\never;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -15,10 +16,34 @@ class AdminController extends Controller
         $appointment->update(['status' => 'Approve','appointedDoctor' => $request['doctorValue']]);
         return redirect()->back();
     }
-    public function destroy(Appointment $appointment)
+    public function destroyAppointment(Appointment $appointment)
     {
         $appointment->delete();
         return redirect()->back();
+    }
+
+    public function destroyUser(User $user)
+    {
+        $user->delete();
+        return redirect()->back();
+    }
+    public function passwordView(User $user)
+    {
+        return view('pages.change-password', ['user' => $user]);
+    }
+    public function passwordCorrect($suppliedPassword, $oldPassword)
+    {
+        return Hash::check($suppliedPassword, $oldPassword, []);
+    }
+    public function updatePassword(Request $request, User $user)
+    {
+        //Hash Password
+        if (self::passwordCorrect($request['oldPassword'],$user->password)) {
+            $user->update(['password'=> bcrypt($request['password'])]);
+            return redirect('/admin/doctor-list/' . $user->id);
+        } else {
+            return redirect('/admin/doctor-list/' . $user->id . '/password');
+        }
     }
     public function __invoke()
     {
