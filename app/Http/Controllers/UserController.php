@@ -13,12 +13,8 @@
 	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Facades\Session;
 	
-	class UserController extends Controller
+	class UserController extends AdminController
 	{
-		// public function create()
-		// {
-		//     return view('register');
-		// }
 		public function index ()
 		{
 			if ( Auth ::check () ) {
@@ -114,29 +110,25 @@
 				'appointedDoctor' => auth () -> user () -> name ,
 				'status' => 'Approve'
 			] ) -> paginate ( 6 );
-			$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-			$count = count ( Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
-			return view ( 'pages.patient-list' , compact ( 'patients' , 'doctors' , 'mailCount' , 'count' ) );
+			return view ( 'pages.patient-list' , compact ( 'patients' , 'doctors' ) );
 		}
 		
 		public function search ()
 		{
 			$doctors = User ::all ();
-			$count = count ( Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
 			$search = request () -> query ( 'appointment' );
-			$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
 			if ( $search == "" ) {
 				return redirect ( '/doctor/patient-list' );
 			}
 			if ( $search ) {
 				$patients = Appointment ::where ( 'firstName' , 'LIKE' , "%{$search}%" )
-					-> where(['status'=>'Approve'])
-					-> wherein ( 'appointedDoctor' , [ auth () -> user () -> name] )
+					-> where ( [ 'status' => 'Approve' ] )
+					-> wherein ( 'appointedDoctor' , [ auth () -> user () -> name ] )
 					-> paginate ( 6 );
 			} else {
 				$patients = Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> paginate ( 6 );
 			}
-			return view ( 'pages.patient-list' , compact ( 'count' , 'patients' , 'mailCount' , 'doctors' ) );
+			return view ( 'pages.patient-list' , compact ( 'patients' , 'doctors' ) );
 		}
 	}
 	

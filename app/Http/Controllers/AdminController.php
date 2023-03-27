@@ -5,6 +5,7 @@
 	use App\Models\Appointment;
 	use App\Models\User;
 	use Illuminate\Http\Request;
+	use Illuminate\Support\Facades\App;
 	use function PHPUnit\Framework\isEmpty;
 	use function PHPUnit\Framework\never;
 	use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,11 @@
 	{
 		public function update ( Request $request , Appointment $appointment )
 		{
-			$appointment -> update ( [ 'status' => 'Approve' , 'appointedDoctor' => $request[ 'doctorValue' ] ] );
+			if ( ! $appointment -> appointedDoctor ) {
+				$appointment -> appointedDoctor = $request[ 'doctorValue' ];
+			}
+			$appointment -> status = 'Approve';
+			$appointment -> update ();
 			return redirect () -> back ();
 		}
 		
@@ -55,11 +60,7 @@
 		{
 			if ( Auth ::check () ) {
 				if ( auth () -> user () -> acc_type == 'admin' ) {
-					// The user is logged in...
 					$doctors = User ::latest () -> paginate ( 6 );
-//					$count = count ( User ::all () );
-//					$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-//					return view ( 'layouts.admin' , compact ( 'doctors' , 'count' , 'mailCount' ) );
 					return view ( 'layouts.admin' , compact ( 'doctors' ) );
 				} else {
 					auth ::logout ();
@@ -74,24 +75,17 @@
 		public function index ()
 		{
 			$doctors = User ::where ( 'acc_type' , 'Doctor' ) -> paginate ( 6 );
-//			$count = count ( User ::all () );
-//			$mailCount = count ( Appointment ::all () );
-//			return view ( 'pages.doctor-list' , compact ( 'doctors' , 'count' , 'mailCount' ) );
 			return view ( 'pages.doctor-list' , compact ( 'doctors' ) );
 		}
 		
 		public function doctorMail ( $doctor )
 		{
-//			dd($doctor);
 			$doctors = User :: all ();
 			$patients = Appointment ::where ( [
 				'appointedDoctor' => $doctor ,
 				'status' => 'PENDING'
 			] )
 				-> paginate ( 6 );
-//			$count = count ( $patients );
-//			$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-//			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' , 'doctors' , 'mailCount' ) );
 			return view ( 'pages.patient-list' , compact ( 'patients' , 'doctors' ) );
 		}
 		
@@ -99,17 +93,11 @@
 		{
 			$doctors = User ::where ( 'acc_type' , 'Doctor' ) -> get ();
 			$patients = Appointment ::where ( 'appointedDoctor' , NULL ) -> paginate ( 6 );
-//			$mailCount = count ( $patients );
-//			$count = count ( Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
-//			$count = count ( Appointment::where('appointedDoctor', $doctor)->get() );
-//			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' , 'mailCount' , 'doctors' ) );
 			return view ( 'pages.patient-list' , compact ( 'patients' , 'doctors' ) );
 		}
 		
 		public function show ( User $user )
 		{
-//			$count = count ( Appointment ::where ( 'appointedDoctor' , $user -> name ) -> get () );
-//			$mailCount = count ( Appointment ::all () );
 			$doctors = User ::all ();
 			return view ( 'pages.edit-doctor' , compact ( 'user' , 'doctors' ) );
 		}

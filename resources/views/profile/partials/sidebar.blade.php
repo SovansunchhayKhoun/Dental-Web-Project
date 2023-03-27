@@ -46,9 +46,9 @@
 									</li>
 								@endif
 							@endforeach
-{{--								{{ auth()->user()->acc_type == 'Doctor' ? 'hidden' : '' }}--}}
+							{{--								{{ auth()->user()->acc_type == 'Doctor' ? 'hidden' : '' }}--}}
 							<li class="treeview">
-								<a href="{{ url('/admin/mailbox') }}">
+								<a href="{{ auth()->user ()->acc_type == 'Doctor' ? url('/doctor/mailbox') : url ('/admin/mailbox') }}">
 									<i class="fa fa-envelope"></i> <span>Mailbox</span>
 								</a>
 							</li>

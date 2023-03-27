@@ -42,9 +42,10 @@
 		Route ::get ( '/admin/doctor-list/{user}/password' ,'passwordView');
 		Route ::put ( '/admin/doctor-list/{user}/password/set' ,'updatePassword');
 		// decline appointment
-		Route ::delete ( '/admin/mailbox/{appointment}' , 'destroyAppointment' );
+		Route ::delete ( '/admin/delete/{appointment}' , 'destroyAppointment' );
 //		edit patient
-		Route ::patch ( '/admin/mailbox/{appointment}' , 'update' );
+		Route ::patch ( '/admin/update/{appointment}' , 'update' );
+//		Route ::patch ( '/admin/update/{appointment}' , 'update' );
 	} );
 	
 	Route ::controller ( UserController::class ) -> group ( function () {
@@ -61,11 +62,12 @@
 		Route ::get ( '/doctor' , 'index' );
 		//Show patients according to doctor
 		Route ::get ( '/doctor/patient-list' , 'myPatients' );
+		Route::get('/doctor/mailbox', 'myMail');
 		
 		Route ::get ( '/doctor/search' , 'search' );
 		
 		Route ::get ( '/appointment/{appointment}' , 'patientInfo' );
+	} );
 //		Route ::fallback ( function () {
 //			return view ( 'welcome' );
 //		} );
-	} );
