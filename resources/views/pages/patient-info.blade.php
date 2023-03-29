@@ -1,31 +1,106 @@
 @extends('layouts.admin')
 @section('content')
-	{{--	<div class="h-16 bg-[#C0F3F7] flex justify-center items-center">--}}
-	{{--		<h1 class="text-center text-2xl">Patient Name: {{ $appointment->firstName }} {{ $appointment->lastName }}</h1>--}}
-	{{--	</div>--}}
 	<x-header title=" {{ $appointment->firstName }} {{ $appointment->lastName }}"/>
 	<div class="flex p-2">
 		<div class="w-6/12 bg-[#FFE2C8] rounded-2xl h-72 justify-center items-center p-5">
-			<h1 class="text-xl">Patient No: {{ $appointment->id }}</h1>
-			<hr class="border-black">
-			<h1 class="text-xl">Phone Number: {{ $appointment->phoneNum }}</h1>
-			<h1 class="text-xl">Email: {{ $appointment->email }}</h1>
-			<h1 class="text-xl">Date of Birth: 06/06/03</h1>
-			<hr class="border-black">
-			<h1 class="text-xl">Appointment Date: {{ $appointment->appointmentDate }}</h1>
-			<hr class="border-black">
+			<form action="/appointment/{{ $appointment->id }}/change">
+				<div style="font-family: monospace">
+					<div class="mb-3 text-xl">Patient No: {{ $appointment->id }}</div>
+					<hr class="mb-3 border-black">
+					<div class="mb-3 text-xl">Phone Number:
+						<input class="border-none rounded-md" type="text" pattern="[0-9]{8,12}"
+									 title="Numbers Only from (8-12 digits)" placeholder=" {{ $appointment->phoneNum }}"
+									 value=" {{ $appointment->phoneNum }}" name="phoneNum">
+					</div>
+					<div class="mb-3 text-xl">
+						Email:
+						<a class="hover:underline hover:cursor-pointer"
+							 href="https://mail.google.com/mail/?view=cm&fs=1&to={{ $appointment->email }}" target="_blank">
+							{{ $appointment->email }}
+						</a>
+					</div>
+					<div class="mb-3 text-xl">Date of Birth:
+						{{ $appointment->birthday }}
+					</div>
+					<hr class="mb-3 border-black">
+					<div class="mb-3 text-xl">Appointment Date:
+						<div class="relative" style="display: inline-block">
+							<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none hover:cursor-pointer">
+								<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="" viewBox="0 0 20 20"
+										 xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd"
+												d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+												clip-rule="evenodd">
+									</path>
+								</svg>
+							</div>
+							<input type="text" datepicker datepicker-format="yyyy-mm-dd"
+										 class="border-none text-gray-900 rounded-md block pl-10 p-2.5"
+										 placeholder="{{ $appointment->appointmentDate }}" value="{{ $appointment->appointmentDate }}"
+										 name="apntDate">
+						</div>
+					</div>
+					<hr class="mb-3 border-black">
+				</div>
+				<div class="text-white flex justify-center items-center p-5">
+					<button class="bg-green-500 md:w-40 lg:w-60 h-12 px-2 m-2 rounded-md" name="res" value="hi">Reschedule
+					</button>
+					<button class="bg-red-500 md:w-40 lg:w-60 h-12 px-2 m-2 rounded-md" name="del" value="hi">Delete</button>
+				</div>
+			</form>
+			<div class="text-white">
+			</div>
 		</div>
 		<div class="w-3/12 bg-[#E0E0E0] rounded-2xl mx-2 p-5">
 			<h1 class="text-center">Message</h1>
 			<hr class="border-black">
-			{{ $appointment->message }}
+			@if($appointment->message == NULL)
+				<div style="color: #606060">
+					No message from {{ $appointment->firstName.' '.$appointment->lastName }}
+				</div>
+			@else
+				{{ $appointment->message }}
+			@endif
 		</div>
-		<div class="w-3/12 flex justify-center items-center p-5">
-			<div>
-				<button class="bg-green-500 md:w-40 lg:w-60 h-12 px-2 m-2 rounded-2xl">Reschedule</button>
-				<br>
-				<button class="bg-red-500 md:w-40 lg:w-60 h-12 px-2 m-2 rounded-2xl">Cancel</button>
-			</div>
+		
+		<div
+			class="relative w-full max-w-sm overflow-y-scroll bg-white border border-gray-100 rounded-lg dark:bg-gray-700 dark:border-gray-600 h-96">
+			<ul>
+				@foreach(auth()->user()->acc_type == "admin" ? $allPatients : $patients as $patient)
+					@if($patient->id != $appointment->id)
+						<li class="border-b border:gray-100 dark:border-gray-600">
+							<a href="{{ url('/appointment/' . $patient->id) }}"
+								 class="flex items-center justify-start w-full px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800">
+								<div class="flex items-center justify-between mr-3">
+									<div
+										class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+										<span class="font-medium text-gray-600 dark:text-gray-300">
+											{{ $patient->firstName[0].$patient->lastName[0] }}
+										</span>
+									</div>
+								</div>
+								<div>
+									<p class="text-sm text-gray-500 dark:text-gray-400">Appointment Time:
+										<span class="font-medium text-gray-900 dark:text-white">
+											@if($patient->appointmentDate == NULL)
+												Unknown
+											@else
+												{{ $patient->appointmentDate }}
+											@endif
+										</span>
+									</p>
+									<p class="text-sm text-gray-500 dark:text-gray-400">Phone Number: <span
+											class="font-medium text-gray-900 dark:text-white">{{ $patient->phoneNum}}</span></p>
+									<p class="text-sm text-gray-500 dark:text-gray-400">
+										Email: {{ $patient->email }}
+									</p>
+								</div>
+							</a>
+						</li>
+					@endif
+				@endforeach
+			</ul>
 		</div>
+	
 	</div>
 @endsection

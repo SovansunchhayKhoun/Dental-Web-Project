@@ -13,7 +13,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
       function hideURLbar() {
           window.scrollTo(0, 1);
       } </script>
-	
+{{--	flowbite css--}}
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
 	<!-- Bootstrap Core CSS -->
 	<link href="{{ asset ('css/bootstrap.css') }}" rel='stylesheet' type='text/css'/>
 	

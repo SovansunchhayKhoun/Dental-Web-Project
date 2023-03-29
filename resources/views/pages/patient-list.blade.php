@@ -6,10 +6,10 @@
 		</x-header>
 		<div class="mt-3 px-2 patient-container">
 			@forelse($patients as $patient)
-				<x-patient.patient-item :patient="$patient" :doctors="$doctors"/>
+				@include('profile.partials.patient-status')
 			@empty
 				<div class="text-center">
-					<span class="font-bold">{{ count($patients) }}</span> patients found
+					<span class="font-bold">0</span> patients found
 				</div>
 			@endforelse
 			<div class="mt-6">

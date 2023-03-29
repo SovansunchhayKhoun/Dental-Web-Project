@@ -63,7 +63,6 @@
     }
 
     .container3 {
-        margin: 10px;
         /* border: 1px solid blue; */
         display: flex;
         justify-content: center;
@@ -152,8 +151,8 @@
 				</a>
 			</div>
 		</div>
-		
-		<div id="makeAppointment" class="container3">
+		<div id="makeAppointment"></div>
+		<div class="container3 p-5">
 			<div class="flex-1">
 				@include('profile.partials.request-form')
 			</div>

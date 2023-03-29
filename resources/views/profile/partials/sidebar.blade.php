@@ -42,6 +42,9 @@
 									<li class="treeview {{ auth()->user()->acc_type == 'Doctor' ? 'hidden' : '' }}">
 										<a href="{{ url('/admin/mailbox/'. $doctor->name) }}">
 											<i class="fa fa-envelope"></i> <span>{{ $doctor->name }}</span>
+											<span class="label label-primary1 pull-right">{{ \App\Models\Appointment::where([
+						'appointedDoctor'=>$doctor->name,
+						'status' => 'PENDING'])->count() }}</span>
 										</a>
 									</li>
 								@endif
@@ -50,6 +53,14 @@
 							<li class="treeview">
 								<a href="{{ auth()->user ()->acc_type == 'Doctor' ? url('/doctor/mailbox') : url ('/admin/mailbox') }}">
 									<i class="fa fa-envelope"></i> <span>Mailbox</span>
+									<span class="label label-primary1 pull-right">
+{{--										{{ $countMail }}--}}
+										{{ auth()->user ()->acc_type == 'Doctor' ?
+						\App\Models\Appointment::where([
+						'appointedDoctor'=>auth()->user ()->name,
+						'status' => 'PENDING'])->count() :
+						$countMail }}
+									</span>
 								</a>
 							</li>
 						</ul>
