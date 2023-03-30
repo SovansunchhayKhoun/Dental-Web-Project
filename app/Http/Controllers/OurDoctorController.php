@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+    use App\Models\User;
 
-class OurDoctorController extends RequestFormController
-{
-    public function __invoke()
+    class OurDoctorController extends RequestFormController
     {
-        $doctors = User::all();
+        public function __invoke()
+        {
+            $doctors = User::all();
 
-        return view('pages.our-doctor', compact('doctors'));
-    }
+            return view('pages.our-doctor', compact('doctors'));
+        }
 
-    public function show(User $user)
-    {
-        return view('pages.doctor-info', compact('user'));
+        public function show(User $user)
+        {
+            return view('pages.doctor-info', compact('user'));
+        }
     }
-}

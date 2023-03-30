@@ -1,5 +1,6 @@
 <div class="left-section flex flex-col" style="color: #4F9298">
-	<a href="{{ url('/appointment/' . $patient->id) }}" class="font-bold">
+{{--	@dd(request()->path())--}}
+	<a href="{{ request ()->path () == 'doctor/mailbox' ? url('/doctor/mailbox/'.$patient->id) : url('/appointment/' . $patient->id) }}" class="font-bold">
 		{{ $patient->firstName }} {{ $patient->lastName }}
 		<sup class="font-normal italic">
 			#{{ $patient->id }}

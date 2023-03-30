@@ -78,16 +78,16 @@
                 <h2 class="mb-6 text-md font-semibold text-gray-900 uppercase dark:text-white">Information</h2>
                 <ul class="text-white dark:text-white">
                     <li class="mb-4">
-                        <a href="#" class="hover:underline ">Home</a>
+                        <a href="{{ url('/') }}" class="hover:underline ">Home</a>
                     </li>
                     <li class="mb-4">
-                        <a href="#" class="hover:underline">Services</a>
+                        <a href="{{ url('/service') }}" class="hover:underline">Services</a>
                     </li>
                     <li class="mb-4">
-                        <a href="#" class="hover:underline">Contact</a>
+                        <a href="{{ url('/contact') }}" class="hover:underline">Contact</a>
                     </li>
                     <li class="mb-4">
-                        <a href="#" class="hover:underline">Community</a>
+                        <a href="{{ url('/community') }}" class="hover:underline">Community</a>
                     </li>
                 </ul>
             </div>

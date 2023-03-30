@@ -133,9 +133,10 @@ namespace App\Http\Controllers;
                 return redirect('/doctor/patient-list');
             }
             if ($search) {
-                $patients = Appointment::where('firstName', 'LIKE', "%{$search}%")
-                    ->orwhere('lastName', 'LIKE', "%{$search}%")
-                    ->wherein('appointedDoctor', [auth()->user()->name])
+                $patients = Appointment::where('firstName', 'like', "%{$search}%")
+                    ->orwhere('lastName', 'like', "%{$search}%")
+                    ->orwhere('id', 'like', "%{$search}%")
+                    ->having('appointedDoctor', '=', auth()->user()->name)
                     ->paginate(6);
             } else {
                 $patients = Appointment::where('appointedDoctor', auth()->user()->name)->paginate(6);
@@ -150,14 +151,19 @@ namespace App\Http\Controllers;
                 $appointment->appointmentDate = $request['apntDate'];
                 $appointment->phoneNum = $request['phoneNum'];
                 $appointment->update();
+                $this->mail($appointment->email, 'Using Reschedule from patient info
+				New Date: '.$appointment->appointmentDate);
 
                 return redirect()->back();
             } else {
+                $this->mail($appointment->email, 'Using Cancel appointment from patient info');
                 $appointment->delete();
-                if (\auth()->user()->acc_type == 'Doctor') {
-                    return redirect('/doctor/patient-list');
-                } else {
+                if ($appointment->status == 'PENDING' && \auth()->user()->acc_type == 'Doctor') {
+                    return redirect('/doctor/mailbox');
+                } elseif (\auth()->user()->acc_type == 'admin') {
                     return redirect('/admin/mailbox/'.$appointment->appointedDoctor);
+                } else {
+                    return redirect('/doctor/patient-list');
                 }
             }
         }

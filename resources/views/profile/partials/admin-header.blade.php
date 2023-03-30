@@ -14,7 +14,7 @@
 		<!--search-box-->
 		<div class="search-box">
 			<form
-				action="{{ auth()->user()->acc_type == 'admin' ? '#InsertRedirectPathHere' : '/doctor/search' }}"
+				action="{{ auth()->user()->acc_type == 'admin' ? '/admin/search' : '/doctor/search' }}"
 				class="input">
 				<input name="appointment" value="{{ request()->query('appointment') }}"
 							 class="sb-search-input input__field--madoka" placeholder="Search Name..." type="search"
@@ -36,14 +36,9 @@
 							<span class="prfil-img"><img src="{{ asset('images/2.jpg') }}" alt=""> </span>
 							<div class="user-name">
 								@auth()
-									<p>
-										{{ auth()->user()->name }}
-									</p>
-									<span>
-                                        {{ auth()->user()->acc_type }}
-                                    </span>
+									<p>{{ auth()->user()->name }}</p>
+									<span>{{ auth()->user()->acc_type }}</span>
 								@endauth
-							
 							</div>
 							<i class="fa fa-angle-down lnr"></i>
 							<i class="fa fa-angle-up lnr"></i>
@@ -51,17 +46,17 @@
 						</div>
 					</a>
 					<ul class="dropdown-menu drp-mnu">
-						<li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+						{{--						<li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>--}}
 						<li><a href="#"><i class="fa fa-user"></i> My Account</a></li>
 						<li><a href="#"><i class="fa fa-suitcase"></i> Profile</a></li>
-						{{-- <li><a href="#" {{ action('UserController@logout') }} @method('POST')>@csrf<i class="fa fa-sign-out"></i> Logout</a></li> --}}
 						<li>
-							<form action="/logout" method="POST" class="inline">
-								@csrf
-								<button type="submit">
-									<i class="fa fa-sign-out">Log out</i>
-								</button>
-							</form>
+							<a href="#">
+								<form action="/logout" method="POST" class="inline">
+									@csrf
+									<i class="fa fa-sign-out"></i>
+									<input type="submit" value="Logout">
+								</form>
+							</a>
 						</li>
 					</ul>
 				</li>

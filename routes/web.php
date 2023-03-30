@@ -1,6 +1,7 @@
 <?php
 
     use App\Http\Controllers\AdminController;
+    use App\Http\Controllers\MailController;
     use App\Http\Controllers\OurDoctorController;
     use App\Http\Controllers\RequestFormController;
     use App\Http\Controllers\UserController;
@@ -12,10 +13,23 @@
         return view('welcome');
     });
 
+    Route::get('/service', function () {
+        return view('WIP');
+    });
+
+    Route::get('/contact', function () {
+        return view('WIP');
+    });
+
+    Route::get('/community', function () {
+        return view('WIP');
+    });
+
     Route::controller(RequestFormController::class)->group(function () {
         Route::get('/appointment', RequestFormController::class);
         Route::post('/appointment', 'store');
     });
+    //	Route ::post ( '/appointment' , [ MailController::class , 'mail' ] );
 
     Route::controller(OurDoctorController::class)->group(function () {
         Route::get('/our-doctor', OurDoctorController::class);
@@ -32,6 +46,7 @@
         Route::get('/admin/mailbox', 'myMail');
         // show patient related to doctor
         Route::get('/admin/mailbox/{user}', 'doctorMail');
+        Route::get('/admin/search', 'search');
         // show doctor info
         Route::get('/admin/doctor-list/{user}', 'show');
         // remove doctor account
@@ -43,7 +58,6 @@
         Route::delete('/admin/delete/{appointment}', 'destroyAppointment');
         //		edit patient
         Route::patch('/admin/update/{appointment}', 'update');
-        //		Route ::patch ( '/admin/update/{appointment}' , 'update' );
     });
 
     Route::controller(UserController::class)->group(function () {
@@ -62,6 +76,7 @@
         Route::get('/doctor/patient-list', 'myPatients');
 
         Route::get('/doctor/mailbox', 'myMail');
+        Route::get('/doctor/mailbox/{appointment}', 'patientInfo');
 
         Route::get('/doctor/search', 'search');
 

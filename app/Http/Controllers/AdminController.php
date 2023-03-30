@@ -8,7 +8,7 @@ namespace App\Http\Controllers;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Hash;
 
-    class AdminController extends Controller
+    class AdminController extends MailController
     {
         public function update(Request $request, Appointment $appointment)
         {
@@ -16,7 +16,6 @@ namespace App\Http\Controllers;
             if ($user != null) {
                 $user->patient_count--;
                 $user->update();
-                //				dd($user);
             }
             if ($appointment->appointedDoctor == null) {
                 $appointment->appointedDoctor = $request['doctorValue'];
@@ -24,11 +23,14 @@ namespace App\Http\Controllers;
             $appointment->status = 'Approve';
             $appointment->update();
 
+            $this->mail($appointment->email, 'Using Update From patient status');
+
             return redirect()->back();
         }
 
         public function destroyAppointment(Appointment $appointment)
         {
+            $this->mail($appointment->email, 'Using Decline from patient status');
             if (auth()->user()->acc_type != 'admin') {
                 $appointment->delete();
 
@@ -139,5 +141,25 @@ namespace App\Http\Controllers;
             $doctors = User::all();
 
             return view('pages.edit-doctor', compact('countMail', 'user', 'doctors'));
+        }
+
+        public function search()
+        {
+            $countMail = Appointment::where('appointedDoctor', null)->count();
+            $doctors = User::all();
+            $search = request()->query('appointment');
+            if ($search == '') {
+                return redirect()->back();
+            }
+            if ($search) {
+                $patients = Appointment::where('firstName', 'like', "%{$search}%")
+                    ->orwhere('lastName', 'like', "%{$search}%")
+                    ->orwhere('id', 'like', "%{$search}%")
+                    ->paginate(6);
+            } else {
+                $patients = Appointment::where('appointedDoctor', auth()->user()->name)->paginate(6);
+            }
+
+            return view('pages.patient-list', compact('countMail', 'patients', 'doctors'));
         }
     }
