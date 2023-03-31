@@ -21,10 +21,10 @@ class AppointmentFactory extends Factory
             'lastName' => fake()->lastName(),
             'phoneNum' => fake()->phoneNumber(),
             'email' => fake()->email(),
-                            'email' => 'sunchhay395@gmail.com',
+                            'email' => 'rithtipongem@gmail.com',
             'birthday' => fake()->date(),
             'appointmentDate' => fake()->date(),
-            'appointedDoctor' => 'Sunchhay Khoun',
+            'appointedDoctor' => 'Rethtihpong Em',
             'status' => 'Approve',
             'message' => fake()->text(),
         ];

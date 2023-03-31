@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
-	class AdminController extends Controller
+	class AdminController extends MailController
 	{
         public function clearFromTable()
     {
@@ -27,12 +27,14 @@ use Illuminate\Support\Facades\DB;
     }
     public function invoiceView(Request $request)
     {
+            // dd(Auth::user()->name);
             $treatments = Treatment::all();
             $doctors = User::all();
+            $dName = Auth::user()->name;
             $items = Temp::all();
             $mytime = Carbon::now();
-            $patients = Appointment::all();
-
+            $patients = Appointment::where('appointedDoctor', Auth::user()->name)->get();
+            $countMail = Appointment::where('appointedDoctor', null)->count();
             $amount = Temp::all()->sum(function($t){
                 return $t->price * $t->qty;
             });
@@ -44,7 +46,9 @@ use Illuminate\Support\Facades\DB;
                 'treatments' => $treatments,
                 'items' => $items,
                 'total' => $amount,
-                'date' => $mytime->toDateTimeString()
+                'date' => $mytime->toDateTimeString(),
+                'countMail' => $countMail,
+                'dName' => $dName
             ]);
         }
 
@@ -93,6 +97,49 @@ use Illuminate\Support\Facades\DB;
         $this->mail($appointment->email, 'Using Update From patient status');
 
         return redirect()->back();
+    }
+
+    public function showTreatmentList(Treatment $treatments)
+    {
+        $treatments = Treatment::all();
+        $doctors = User::all();
+        $countMail = Appointment::where('appointedDoctor', null)->count();
+        return view('pages.treatment-list', [
+            'treatments' => $treatments,
+            'doctors' => $doctors,
+            'countMail' => $countMail
+        ]);
+    }
+    public function createTreatmentView()
+    {
+        $doctors = User::all();
+        $countMail = Appointment::where('appointedDoctor', null)->count();
+        return view('pages.add-new-treatment', [
+            'doctors' => $doctors,
+            'countMail' => $countMail
+        ]);
+    }
+    public function createTreatment(Request $request)
+    {
+        $formfield = $request->validate([
+            'treatment_name' => ['required', 'string', Rule::unique('treatments', 'treatment_name')],
+            'price' => 'required'
+        ]);
+        $treatment = Treatment::create($formfield);
+        return redirect('/admin/treatment-list')->with('message', 'Treatment created Successfully');
+    }
+    public function destroyTreatment(Treatment $treatment)
+    {
+        $treatment->delete();
+        return redirect()->back();
+    }
+    public function editTreatmentView(Treatment $treatment)
+    {
+        $doctors = User::all();
+        return view('pages.edit-treatment', [
+            'treatment' => $treatment,
+            'doctors' => $doctors
+        ]);
     }
 
     public function destroyAppointment(Appointment $appointment)

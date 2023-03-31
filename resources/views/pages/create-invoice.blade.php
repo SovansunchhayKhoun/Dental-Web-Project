@@ -15,11 +15,7 @@
             <label for="doctor_name" class="block mb-2 text-sm font-medium text-gray-900 pt-4 mr-5">Doctor:</label>
             <select id="doctor_name" name="doctor_name"
                 class=" border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/6 p-2.5 mt-2 mr-5">
-                @foreach ($doctors as $doctor)
-                    @if ($doctor['acc_type'] == 'Doctor')
-                        <option value="{{ $doctor->name }}">{{ $doctor->name }}</option>
-                    @endif
-                @endforeach
+                        <option value="{{ $dName }}">{{ $dName }}</option>
             </select>
             <label for="patient_name" class="block mb-2 text-sm font-medium text-gray-900 pt-4 mr-5">Patient:</label>
             <select id="patient_name" name="patient_name"
