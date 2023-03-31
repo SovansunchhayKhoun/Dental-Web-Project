@@ -4,7 +4,7 @@ namespace App\View\Components\Patient;
 
 use Illuminate\View\Component;
 
-class PatientItem extends Component
+class PatientList extends Component
 {
     /**
      * Create a new component instance.
@@ -13,12 +13,9 @@ class PatientItem extends Component
      */
     public $patient;
 
-    public $doctors;
-
-    public function __construct($patient, $doctors)
+    public function __construct($patient)
     {
         $this->patient = $patient;
-        $this->doctors = $doctors;
     }
 
     /**
@@ -28,6 +25,6 @@ class PatientItem extends Component
      */
     public function render()
     {
-        return view('components.patient.patient-item');
+        return view('components.patient.patient-list');
     }
 }

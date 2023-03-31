@@ -3,22 +3,14 @@
 	namespace App\Http\Controllers;
 	
 	use App\Models\Appointment;
-	use App\Models\OurDoctor;
-	use App\View\Components\Patient\PatientItem;
-	use Illuminate\Http\Request;
 	use App\Models\User;
-	use Illuminate\Support\Facades\App;
-	use Illuminate\Validation\Rule;
+	use Illuminate\Http\Request;
 	use Illuminate\Support\Facades\Auth;
 	use Illuminate\Support\Facades\Hash;
-	use Illuminate\Support\Facades\Session;
+	use Illuminate\Validation\Rule;
 	
-	class UserController extends Controller
+	class UserController extends AdminController
 	{
-		// public function create()
-		// {
-		//     return view('register');
-		// }
 		public function index ()
 		{
 			if ( Auth ::check () ) {
@@ -26,15 +18,17 @@
 					// The user is logged in...
 					$doctors = User ::all ();
 					$patients = Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> paginate ( 6 );
-					$count = count ( Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
-					$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-					return view ( 'layouts.admin' , compact ( 'patients' , 'count' , 'mailCount' , 'doctors' ) );
+					$countMail = count ( Appointment ::where ( 'appointedDoctor' , null ) -> get () );
+					
+					return view ( 'layouts.admin' , compact ( 'patients' , 'countMail' , 'doctors' ) );
 				} else {
 					auth ::logout ();
+					
 					return view ( 'pages.login' );
 				}
 			} else {
 				auth ::logout ();
+				
 				return view ( 'pages.login' );
 			}
 		}
@@ -73,6 +67,7 @@
 			auth () -> logout ();
 			$request -> session () -> invalidate ();
 			$request -> session () -> regenerateToken ();
+			
 			return view ( 'pages.login' );
 		}
 		
@@ -80,7 +75,7 @@
 		{
 			$formField = $request -> validate ( [
 				'email' => [ 'required' , 'email' ] ,
-				'password' => 'required'
+				'password' => 'required' ,
 			] );
 			if ( auth () -> attempt ( $formField ) ) {
 				$request -> session () -> regenerate ();
@@ -99,44 +94,87 @@
 			auth () -> logout ();
 			$request -> session () -> invalidate ();
 			$request -> session () -> regenerateToken ();
+			
 			return redirect ( '/login' );
 		}
 		
 		public function patientInfo ( Appointment $appointment )
 		{
-			return view ( 'pages.patient-info' , compact ( 'appointment' ) );
+			$countMail = count ( Appointment ::where ( 'appointedDoctor' , null ) -> get () );
+			$doctors = User ::latest () -> paginate ( 6 );
+			$allPatients = Appointment ::all ();
+			$patients = Appointment ::where ( [
+				'appointedDoctor' => auth () -> user () -> name ,
+				'status' => 'Approve' ,
+			] ) -> paginate ( 6 );
+			
+			return view ( 'pages.patient-info' , compact ( 'allPatients' , 'patients' , 'countMail' , 'appointment' , 'doctors' ) );
 		}
 		
 		public function myPatients ( Auth $auth )
 		{
 			$doctors = User ::latest () -> paginate ( 6 );
+			
 			$patients = Appointment ::where ( [
 				'appointedDoctor' => auth () -> user () -> name ,
-				'status' => 'Approve'
+				'status' => 'Approve' ,
 			] ) -> paginate ( 6 );
-			$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-			$count = count ( Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
-			return view ( 'pages.patient-list' , compact ( 'patients' , 'doctors' , 'mailCount' , 'count' ) );
+			$countMail = count ( Appointment ::where ( 'appointedDoctor' , null ) -> get () );
+			
+			return view ( 'pages.patient-list' , compact ( 'countMail' , 'patients' , 'doctors' ) );
 		}
 		
 		public function search ()
 		{
+			$countMail = count ( Appointment ::where ( 'appointedDoctor' , null ) -> get () );
 			$doctors = User ::all ();
-			$count = count ( Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
 			$search = request () -> query ( 'appointment' );
-			$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-			if ( $search == "" ) {
+			if ( $search == '' ) {
 				return redirect ( '/doctor/patient-list' );
 			}
 			if ( $search ) {
-				$patients = Appointment ::where ( 'firstName' , 'LIKE' , "%{$search}%" )
-					-> where(['status'=>'Approve'])
-					-> wherein ( 'appointedDoctor' , [ auth () -> user () -> name] )
+				$patients = Appointment ::where ( 'firstName' , 'like' , "%{$search}%" )
+					-> orwhere ( 'lastName' , 'like' , "%{$search}%" )
+					-> orwhere ( 'id' , 'like' , "%{$search}%" )
+					-> having ( 'appointedDoctor' , '=' , auth () -> user () -> name )
 					-> paginate ( 6 );
 			} else {
-				$patients = Appointment :: where ( 'appointedDoctor' , auth () -> user () -> name ) -> paginate ( 6 );
+				$patients = Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> paginate ( 6 );
 			}
-			return view ( 'pages.patient-list' , compact ( 'count' , 'patients' , 'mailCount' , 'doctors' ) );
+			
+			return view ( 'pages.patient-list' , compact ( 'countMail' , 'patients' , 'doctors' ) );
+		}
+		
+		public function change ( Request $request , Appointment $appointment )
+		{
+			
+			switch ( $request[ 'res' ] ) {
+				case 'reschedule':
+					$appointment -> appointmentDate = $request[ 'apntDate' ];
+					if ( $request[ 'phoneNum' ] != null ) {
+						$appointment -> phoneNum = $request[ 'phoneNum' ];
+					}
+					if ( $request[ 'cb' ] == 'check' ) {
+						$this -> mail ( $appointment -> email , 'Using Reschedule from patient info
+					New Date: ' . $request[ 'apntDate' ] );
+					}
+					$appointment -> update ();
+					return redirect () -> back ();
+				case 'delete':
+					if ( $request[ 'cb' ] == 'check' ) {
+						$this -> mail ( $appointment -> email , 'Using Cancel appointment from patient info' );
+					}
+					$appointment -> delete ();
+					if ( $appointment -> status == 'PENDING' && \auth () -> user () -> acc_type == 'Doctor' ) {
+						return redirect ( '/doctor/mailbox' );
+					} elseif ( \auth () -> user () -> acc_type == 'admin' ) {
+						return redirect ( '/admin/mailbox/' . $appointment -> appointedDoctor );
+					} else {
+						return redirect ( '/doctor/patient-list' );
+					}
+				default:
+					return abort ( '404' );
+			}
 		}
 	}
 	

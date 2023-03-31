@@ -1,10 +1,10 @@
 <?php
 
-namespace App\View\Components\Patient;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class PatientItem extends Component
+class EditComponent extends Component
 {
     /**
      * Create a new component instance.
@@ -28,6 +28,6 @@ class PatientItem extends Component
      */
     public function render()
     {
-        return view('components.patient.patient-item');
+        return view('components.edit-component');
     }
 }

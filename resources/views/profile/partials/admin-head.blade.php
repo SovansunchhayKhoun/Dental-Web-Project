@@ -4,8 +4,7 @@
 	<title>DASHBOARD</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta name="keywords" content="Glance Design Dashboard Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
-SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design"/>
+	<meta name="keywords"/>
 	<script type="application/x-javascript"> addEventListener("load", function () {
           setTimeout(hideURLbar, 0);
       }, false);
@@ -13,7 +12,9 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
       function hideURLbar() {
           window.scrollTo(0, 1);
       } </script>
-	
+{{--	flowbite css--}}
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/datepicker.min.js"></script>
 	<!-- Bootstrap Core CSS -->
 	<link href="{{ asset ('css/bootstrap.css') }}" rel='stylesheet' type='text/css'/>
 	
@@ -111,4 +112,5 @@ SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, Sony
 	{{--	Tailwind Css--}}
 	@vite('resources/css/app.css')
 	<script src="//unpkg.com/alpinejs" defer></script>
+	@livewireStyles
 </head>

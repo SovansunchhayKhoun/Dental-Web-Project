@@ -48,18 +48,18 @@
     }
 </style>
 
-<nav class="sticky top-0 bg-white">
-    <div class="nav-container shadow-md flex justify-between py-1 px-2 items-center">
+<nav style="z-index: 100" class="sticky top-0 bg-white">
+    <div class="bg-white nav-container shadow-md flex justify-between py-1 px-2 items-center">
         @include('profile.partials.dental-brand', [($text_color = 'text-black'), ($img_height = '10px')])
         {{--		right side --}}
         <div>
             <div class="navigation flex gap-4 items-center">
                 <a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Home</a>
-                <a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Services</a>
+                <a href="{{ url('/service') }}" class="text-md hover:cursor-pointer underline-animation">Services</a>
                 <a href="{{ url('/our-doctor') }}" class="text-md hover:cursor-pointer underline-animation">Our
                     Doctors</a>
-                <a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Contact</a>
-                <a href="{{ url('/') }}" class="text-md hover:cursor-pointer underline-animation">Community</a>
+                <a href="{{ url('/contact') }}" class="text-md hover:cursor-pointer underline-animation">Contact</a>
+                <a href="{{ url('/community') }}" class="text-md hover:cursor-pointer underline-animation">Community</a>
 
             </div>
             {{--			dropdown when small --}}

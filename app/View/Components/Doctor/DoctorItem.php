@@ -12,6 +12,7 @@ class DoctorItem extends Component
      * @return void
      */
     public $doctor;
+
     public function __construct($doctor)
     {
         $this->doctor = $doctor;

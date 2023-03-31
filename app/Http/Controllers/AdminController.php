@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers;
+	namespace App\Http\Controllers;
 
-use App\Models\Appointment;
-use App\Models\Temp;
+	use App\Models\Appointment;
+    use App\Models\Temp;
 use App\Models\Treatment;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules\Unique;
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\never;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
+	use App\Models\User;
+    use Carbon\Carbon;
+	use Illuminate\Http\Request;
+    use Illuminate\Validation\Rules\Unique;
+	use function PHPUnit\Framework\isEmpty;
+	use function PHPUnit\Framework\never;
+	use Illuminate\Support\Facades\Auth;
+	use Illuminate\Support\Facades\Hash;
+    use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 
-class AdminController extends Controller
-{
-    public function clearFromTable()
+	class AdminController extends Controller
+	{
+        public function clearFromTable()
     {
         DB::table('temps')->truncate();
         return redirect()->back();
@@ -79,57 +79,40 @@ class AdminController extends Controller
     }
     public function update(Request $request, Appointment $appointment)
     {
-        $appointment->update(['status' => 'Approve', 'appointedDoctor' => $request['doctorValue']]);
+        $user = User::find($appointment->id);
+        if ($user != null) {
+            $user->patient_count--;
+            $user->update();
+        }
+        if ($appointment->appointedDoctor == null) {
+            $appointment->appointedDoctor = $request['doctorValue'];
+        }
+        $appointment->status = 'Approve';
+        $appointment->update();
+
+        $this->mail($appointment->email, 'Using Update From patient status');
+
         return redirect()->back();
-    }
-    public function showTreatmentList(Treatment $treatments)
-    {
-        $treatments = Treatment::all();
-        $doctors = User::all();
-        return view('pages.treatment-list', [
-            'treatments' => $treatments,
-            'doctors' => $doctors
-        ]);
-    }
-    public function createTreatmentView()
-    {
-        $doctors = User::all();
-        return view('pages.add-new-treatment', [
-            'doctors' => $doctors
-        ]);
-    }
-    public function createTreatment(Request $request)
-    {
-        $formfield = $request->validate([
-            'treatment_name' => ['required', 'string', Rule::unique('treatments', 'treatment_name')],
-            'price' => 'required'
-        ]);
-        $treatment = Treatment::create($formfield);
-        return redirect('/admin/treatment-list')->with('message', 'Treatment created Successfully');
-    }
-    public function destroyTreatment(Treatment $treatment)
-    {
-        $treatment->delete();
-        return redirect()->back();
-    }
-    public function editTreatmentView(Treatment $treatment)
-    {
-        $doctors = User::all();
-        return view('pages.edit-treatment', [
-            'treatment' => $treatment,
-            'doctors' => $doctors
-        ]);
     }
 
     public function destroyAppointment(Appointment $appointment)
     {
-        $appointment->delete();
-        return redirect()->back();
+        $this->mail($appointment->email, 'Using Decline from patient status');
+        if (auth()->user()->acc_type != 'admin') {
+            $appointment->delete();
+
+            return redirect('/doctor/patient-list');
+        } else {
+            $appointment->delete();
+
+            return redirect()->back();
+        }
     }
 
     public function destroyUser(User $user)
     {
         $user->delete();
+
         return redirect()->back();
     }
 
@@ -148,82 +131,103 @@ class AdminController extends Controller
         //Hash Password
         if (self::passwordCorrect($request['oldPassword'], $user->password)) {
             $user->update(['password' => bcrypt($request['password'])]);
-            return redirect('/admin/doctor-list/' . $user->id);
-        } else {
-            return redirect('/admin/doctor-list/' . $user->id . '/password');
-        }
-    }
-    public function updateTreatment(Request $request, Treatment $treatment)
-    {
-        $formFields = $request->validate([
-            'treatment_name' => 'required',
-            'price' => 'required'
-        ]);
 
-        $treatment->update($formFields);
-        return redirect('/admin/treatment-list');
+            return redirect('/admin/doctor-list/'.$user->id);
+        } else {
+            return redirect('/admin/doctor-list/'.$user->id.'/password');
+        }
     }
 
     public function __invoke()
     {
         if (Auth::check()) {
             if (auth()->user()->acc_type == 'admin') {
-                // The user is logged in...
                 $doctors = User::latest()->paginate(6);
-                //					$count = count ( User ::all () );
-                //					$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-                //					return view ( 'layouts.admin' , compact ( 'doctors' , 'count' , 'mailCount' ) );
-                return view('layouts.admin', compact('doctors'));
+                $countMail = Appointment::where('appointedDoctor', null)->count();
+
+                return view('layouts.admin', compact('doctors', 'countMail'));
             } else {
                 auth::logout();
+
                 return view('pages.login');
             }
         } else {
             auth::logout();
+
             return view('pages.login');
         }
     }
 
     public function index()
     {
+        $countMail = Appointment::where('appointedDoctor', null)->count();
         $doctors = User::where('acc_type', 'Doctor')->paginate(6);
-        //			$count = count ( User ::all () );
-        //			$mailCount = count ( Appointment ::all () );
-        //			return view ( 'pages.doctor-list' , compact ( 'doctors' , 'count' , 'mailCount' ) );
-        return view('pages.doctor-list', compact('doctors'));
+
+        return view('pages.doctor-list', compact('doctors', 'countMail'));
     }
 
     public function doctorMail($doctor)
     {
-        //			dd($doctor);
         $doctors = User::all();
         $patients = Appointment::where([
             'appointedDoctor' => $doctor,
-            'status' => 'PENDING'
+            'status' => 'PENDING',
         ])
             ->paginate(6);
-        //			$count = count ( $patients );
-        //			$mailCount = count ( Appointment ::where ( 'appointedDoctor' , NULL ) -> get () );
-        //			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' , 'doctors' , 'mailCount' ) );
-        return view('pages.patient-list', compact('patients', 'doctors'));
+        $doctorMail = count($patients);
+        //			$countMail = Appointment ::where ( 'appointedDoctor' , NULL ) -> count ();
+        $countMail = Appointment::where([
+            'appointedDoctor' => null,
+            'status' => 'PENDING',
+        ])->count();
+
+        return view('pages.patient-list', compact('doctorMail', 'countMail', 'patients', 'doctors'));
     }
 
     public function myMail()
     {
         $doctors = User::where('acc_type', 'Doctor')->get();
-        $patients = Appointment::where('appointedDoctor', NULL)->paginate(6);
-        //			$mailCount = count ( $patients );
-        //			$count = count ( Appointment ::where ( 'appointedDoctor' , auth () -> user () -> name ) -> get () );
-        //			$count = count ( Appointment::where('appointedDoctor', $doctor)->get() );
-        //			return view ( 'pages.patient-list' , compact ( 'patients' , 'count' , 'mailCount' , 'doctors' ) );
-        return view('pages.patient-list', compact('patients', 'doctors'));
+        if (auth()->user()->acc_type == 'Doctor') {
+            $patients = Appointment::where('appointedDoctor', auth()->user()->name)
+                ->where('status', 'PENDING')
+                ->paginate(6);
+            $countMail = count($patients);
+        } else { // for Acc_type = Admin
+            $patients = Appointment::where(
+                'appointedDoctor', null
+            )->paginate(6);
+            $countMail = count($patients);
+        }
+        //			$countMail = Appointment ::where ( 'appointedDoctor' , NULL ) -> count ();
+        return view('pages.patient-list', compact('countMail', 'patients', 'doctors'));
     }
 
     public function show(User $user)
     {
-        //			$count = count ( Appointment ::where ( 'appointedDoctor' , $user -> name ) -> get () );
-        //			$mailCount = count ( Appointment ::all () );
+        $countMail = Appointment::where('appointedDoctor', null)->count();
         $doctors = User::all();
-        return view('pages.edit-doctor', compact('user', 'doctors'));
+
+        return view('pages.edit-doctor', compact('countMail', 'user', 'doctors'));
+    }
+
+    public function search()
+    {
+        $countMail = Appointment::where('appointedDoctor', null)->count();
+        $doctors = User::all();
+        $search = request()->query('appointment');
+        if ($search == '') {
+            return redirect()->back();
+        }
+        if ($search) {
+            $patients = Appointment::where('firstName', 'like', "%{$search}%")
+                ->orwhere('lastName', 'like', "%{$search}%")
+                ->orwhere('id', 'like', "%{$search}%")
+                ->paginate(6);
+        } else {
+            $patients = Appointment::where('appointedDoctor', auth()->user()->name)->paginate(6);
+        }
+
+        return view('pages.patient-list', compact('countMail', 'patients', 'doctors'));
     }
 }
+

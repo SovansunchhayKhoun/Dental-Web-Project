@@ -11,12 +11,12 @@ class ListComponent extends Component
      *
      * @return void
      */
-		public $url;
+    public $url;
+
     public function __construct($url)
     {
         //
-			$this->url = $url;
-			
+        $this->url = $url;
     }
 
     /**

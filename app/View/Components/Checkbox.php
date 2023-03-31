@@ -1,24 +1,20 @@
 <?php
 
-namespace App\View\Components\Patient;
+namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class PatientItem extends Component
+class Checkbox extends Component
 {
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public $patient;
-
-    public $doctors;
-
-    public function __construct($patient, $doctors)
+		public $patient;
+    public function __construct($patient)
     {
         $this->patient = $patient;
-        $this->doctors = $doctors;
     }
 
     /**
@@ -28,6 +24,6 @@ class PatientItem extends Component
      */
     public function render()
     {
-        return view('components.patient.patient-item');
+        return view('components.checkbox');
     }
 }
