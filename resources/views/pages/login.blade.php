@@ -58,4 +58,5 @@
 	</div>
 </div>
 <x-flash-message/>
+@livewireStyles
 </body>

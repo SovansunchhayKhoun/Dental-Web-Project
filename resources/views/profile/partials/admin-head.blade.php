@@ -112,4 +112,5 @@
 	{{--	Tailwind Css--}}
 	@vite('resources/css/app.css')
 	<script src="//unpkg.com/alpinejs" defer></script>
+	@livewireStyles
 </head>

@@ -1,20 +1,21 @@
 @auth
-    <!doctype html>
-    <html lang="en">
-    @include('profile.partials.admin-head')
+	<!doctype html>
+<html lang="en">
+@include('profile.partials.admin-head')
 
-    <body class="cbp-spmenu-push">
-        @include('profile.partials.admin-header')
-        @include('profile.partials.sidebar')
-        <div id="page-wrapper">
-            <div class="main-page">
-                @yield('content')
-            </div>
-        </div>
-        @include('profile.partials.adminJs')
-    </body>
+<body class="cbp-spmenu-push">
+@include('profile.partials.admin-header')
+@include('profile.partials.sidebar')
+<div id="page-wrapper">
+	<div class="main-page">
+		@yield('content')
+	</div>
+</div>
+@include('profile.partials.adminJs')
+@livewireStyles
+</body>
 
-    </html>
+</html>
 @else
-    @include('pages.login');
+	@include('pages.login');
 @endauth
